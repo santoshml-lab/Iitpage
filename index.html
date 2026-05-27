@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IIT Preparation AI 🚀</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:
+radial-gradient(circle at top left,#38bdf830,transparent 25%),
+radial-gradient(circle at bottom right,#8b5cf630,transparent 25%),
+#020617;
+
+min-height:100vh;
+overflow-x:hidden;
+color:white;
+
+}
+
+/* GLOW EFFECTS */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+width:350px;
+height:350px;
+
+background:#38bdf8;
+
+filter:blur(120px);
+
+top:-100px;
+left:-100px;
+
+opacity:0.15;
+
+z-index:-1;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:300px;
+height:300px;
+
+background:#8b5cf6;
+
+filter:blur(120px);
+
+bottom:-100px;
+right:-100px;
+
+opacity:0.15;
+
+z-index:-1;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:22px 8%;
+
+background:rgba(255,255,255,0.05);
+
+backdrop-filter:blur(20px);
+
+border-bottom:1px solid rgba(255,255,255,0.08);
+
+}
+
+.logo{
+
+font-size:30px;
+font-weight:800;
+
+background:linear-gradient(45deg,#38bdf8,#8b5cf6);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.badge{
+
+padding:10px 16px;
+
+background:#111827;
+
+border-radius:999px;
+
+font-size:13px;
+
+border:1px solid rgba(255,255,255,0.08);
+
+}
+
+/* HERO */
+
+.hero{
+
+width:90%;
+max-width:1400px;
+
+margin:auto;
+margin-top:40px;
+
+text-align:center;
+
+}
+
+.hero h1{
+
+font-size:58px;
+line-height:1.2;
+
+font-weight:800;
+
+}
+
+.hero span{
+
+color:#38bdf8;
+
+}
+
+.hero p{
+
+margin-top:18px;
+
+font-size:17px;
+
+opacity:0.8;
+
+}
+
+/* MAIN */
+
+.main{
+
+width:90%;
+max-width:1400px;
+
+margin:auto;
+margin-top:40px;
+
+display:grid;
+
+grid-template-columns:380px 1fr;
+
+gap:25px;
+
+}
+
+/* GLASS CARD */
+
+.card{
+
+background:rgba(255,255,255,0.05);
+
+border:1px solid rgba(255,255,255,0.08);
+
+backdrop-filter:blur(25px);
+
+padding:25px;
+
+border-radius:28px;
+
+box-shadow:
+0 0 30px rgba(56,189,248,0.08);
+
+}
+
+/* INPUTS */
+
+select,
+textarea{
+
+width:100%;
+
+padding:16px;
+
+margin-top:16px;
+
+border:none;
+outline:none;
+
+border-radius:18px;
+
+background:#111827;
+
+color:white;
+
+font-size:15px;
+
+}
+
+textarea{
+
+height:220px;
+resize:none;
+
+}
+
+/* BUTTON */
+
+button{
+
+width:100%;
+
+padding:16px;
+
+margin-top:18px;
+
+border:none;
+
+border-radius:18px;
+
+background:linear-gradient(
+45deg,
+#38bdf8,
+#8b5cf6
+);
+
+color:white;
+
+font-size:16px;
+font-weight:700;
+
+cursor:pointer;
+
+transition:0.3s;
+
+box-shadow:
+0 0 25px rgba(56,189,248,0.25);
+
+}
+
+button:hover{
+
+transform:translateY(-3px) scale(1.02);
+
+box-shadow:
+0 0 45px rgba(56,189,248,0.45);
+
+}
+
+/* OUTPUT */
+
+.output{
+
+margin-top:20px;
+
+background:#0f172a;
+
+padding:25px;
+
+border-radius:22px;
+
+min-height:650px;
+
+line-height:1.9;
+
+overflow:auto;
+
+border:1px solid rgba(255,255,255,0.06);
+
+}
+
+/* MARKDOWN */
+
+.output h1,
+.output h2,
+.output h3{
+
+color:#38bdf8;
+
+margin-top:18px;
+margin-bottom:10px;
+
+}
+
+.output p{
+
+margin-top:10px;
+
+}
+
+.output strong{
+
+color:#38bdf8;
+
+}
+
+/* LOADER */
+
+.loader{
+
+display:none;
+
+margin-top:15px;
+
+font-weight:600;
+
+color:#38bdf8;
+
+animation:pulse 1s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{opacity:0.4;}
+50%{opacity:1;}
+100%{opacity:0.4;}
+
+}
+
+/* FEATURE TAGS */
+
+.tags{
+
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+
+margin-top:20px;
+
+}
+
+.tag{
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#111827;
+
+font-size:13px;
+
+border:1px solid rgba(255,255,255,0.08);
+
+}
+
+/* FOOTER */
+
+.footer{
+
+text-align:center;
+
+padding:35px;
+
+margin-top:30px;
+
+opacity:0.6;
+
+font-size:13px;
+
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:38px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="logo">
+🧠 IIT Preparation AI
+</div>
+
+<div class="badge">
+⚡ AI Coaching System
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<h1>
+Solve <span>IIT-Level Problems</span><br>
+Like a Real Teacher 🚀
+</h1>
+
+<p>
+Physics • Maths • Chemistry
+with deep concept explanation and step-by-step reasoning.
+</p>
+
+<div class="tags">
+
+<div class="tag">📘 Concept Building</div>
+<div class="tag">🧠 AI Reasoning</div>
+<div class="tag">⚡ IIT Level</div>
+<div class="tag">🔥 Step-by-Step</div>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- LEFT -->
+
+<div class="card">
+
+<h2>⚡ Problem Solver</h2>
+
+<select id="subject">
+
+<option value="physics">Physics</option>
+<option value="math">Maths</option>
+<option value="chemistry">Chemistry</option>
+
+</select>
+
+<textarea
+id="question"
+placeholder="Enter your IIT-level problem here..."></textarea>
+
+<button onclick="solveProblem()">
+🚀 Solve Problem
+</button>
+
+<div class="loader" id="loader">
+🧠 AI is solving your problem...
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="card">
+
+<h2>📖 AI Solution</h2>
+
+<div class="output" id="output">
+
+Your detailed AI solution will appear here...
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+Made with ❤️ for IIT Aspirants • AI Powered Education System
+
+</div>
+
+<script>
+
+const API = "https://iitpreparation.onrender.com/solve";
+
+async function solveProblem(){
+
+let subject =
+document.getElementById("subject").value;
+
+let question =
+document.getElementById("question").value;
+
+if(!question){
+
+alert("Enter a problem first");
+return;
+
+}
+
+document.getElementById("loader").style.display = "block";
+
+document.getElementById("output").innerHTML =
+"⚡ Solving your problem...";
+
+try{
+
+let res = await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+subject:subject,
+question:question
+
+})
+
+});
+
+let data = await res.json();
+
+document.getElementById("output").innerHTML =
+marked.parse(data.solution);
+
+}
+
+catch(err){
+
+document.getElementById("output").innerHTML =
+"❌ Backend Error";
+
+}
+
+finally{
+
+document.getElementById("loader").style.display = "none";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
