@@ -6,7 +6,7 @@
 
 <title>IIT AI Coach V3 🚀</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
@@ -20,12 +20,45 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:
-radial-gradient(circle at top left,#38bdf830,transparent 25%),
-radial-gradient(circle at bottom right,#8b5cf630,transparent 25%),
-#020617;
-color:white;
 min-height:100vh;
+color:white;
+
+/* 🌈 PREMIUM GRADIENT LIGHT BACKGROUND */
+background:
+radial-gradient(circle at top left,#38bdf840,transparent 30%),
+radial-gradient(circle at top right,#8b5cf640,transparent 30%),
+radial-gradient(circle at bottom left,#22c55e30,transparent 35%),
+radial-gradient(circle at bottom right,#f9731630,transparent 35%),
+#020617;
+
+overflow-x:hidden;
+}
+
+/* FLOATING GLOW EFFECT */
+body::before{
+content:"";
+position:fixed;
+width:400px;
+height:400px;
+background:#38bdf8;
+filter:blur(140px);
+top:-120px;
+left:-120px;
+opacity:0.18;
+z-index:-1;
+}
+
+body::after{
+content:"";
+position:fixed;
+width:350px;
+height:350px;
+background:#8b5cf6;
+filter:blur(140px);
+bottom:-120px;
+right:-120px;
+opacity:0.18;
+z-index:-1;
 }
 
 /* HEADER */
@@ -34,20 +67,24 @@ padding:18px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(20px);
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(25px);
 border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
-font-size:26px;
+font-size:28px;
 font-weight:800;
-color:#38bdf8;
+background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+letter-spacing:1px;
 }
 
 .tag{
 padding:8px 14px;
-background:#111827;
+background:rgba(17,24,39,0.8);
+border:1px solid rgba(255,255,255,0.08);
 border-radius:999px;
 font-size:13px;
 }
@@ -55,19 +92,21 @@ font-size:13px;
 /* HERO */
 .hero{
 text-align:center;
-padding:30px 8%;
+padding:35px 8%;
 }
 
 .hero h1{
-font-size:42px;
+font-size:44px;
+font-weight:800;
 }
 
 .hero span{
 color:#38bdf8;
+text-shadow:0 0 20px rgba(56,189,248,0.5);
 }
 
 .hero p{
-opacity:0.8;
+opacity:0.85;
 margin-top:10px;
 }
 
@@ -78,16 +117,23 @@ max-width:1200px;
 margin:auto;
 display:grid;
 grid-template-columns:350px 1fr;
-gap:20px;
+gap:22px;
 }
 
 /* CARD */
 .card{
-background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,0.06);
 padding:22px;
-border-radius:22px;
-border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(20px);
+border-radius:24px;
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(25px);
+box-shadow:0 0 30px rgba(56,189,248,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 0 50px rgba(56,189,248,0.2);
 }
 
 /* INPUT */
@@ -95,11 +141,12 @@ select, textarea{
 width:100%;
 padding:14px;
 margin-top:12px;
-border-radius:12px;
+border-radius:14px;
 border:none;
 outline:none;
 background:#111827;
 color:white;
+border:1px solid rgba(255,255,255,0.08);
 }
 
 textarea{
@@ -110,19 +157,21 @@ resize:none;
 /* BUTTON */
 button{
 width:100%;
-padding:14px;
+padding:15px;
 margin-top:14px;
 border:none;
-border-radius:12px;
-background:linear-gradient(45deg,#38bdf8,#8b5cf6);
+border-radius:14px;
+background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
 color:white;
-font-weight:700;
+font-weight:800;
 cursor:pointer;
 transition:0.3s;
+box-shadow:0 0 25px rgba(56,189,248,0.25);
 }
 
 button:hover{
-transform:scale(1.02);
+transform:scale(1.03);
+box-shadow:0 0 45px rgba(56,189,248,0.4);
 }
 
 /* OUTPUT */
@@ -143,7 +192,7 @@ overflow:auto;
 display:none;
 margin-top:10px;
 color:#38bdf8;
-font-weight:600;
+font-weight:700;
 animation:pulse 1s infinite;
 }
 
@@ -172,15 +221,20 @@ font-size:32px;
 <header>
 
 <div class="logo">🧠 IIT AI Coach V3</div>
-<div class="tag">Physics • Math • Chemistry</div>
+<div class="tag">⚡ Premium Gradient Learning System</div>
 
 </header>
 
 <div class="hero">
+
 <h1>
 Solve <span>IIT Level Problems</span> 🚀
 </h1>
-<p>Step-by-step AI powered explanation system</p>
+
+<p>
+Physics • Math • Chemistry | AI Powered Coaching Engine
+</p>
+
 </div>
 
 <div class="main">
@@ -195,7 +249,7 @@ Solve <span>IIT Level Problems</span> 🚀
 <option value="chemistry">Chemistry</option>
 </select>
 
-<textarea id="question" placeholder="Enter your problem here..."></textarea>
+<textarea id="question" placeholder="Enter your IIT level problem here..."></textarea>
 
 <button onclick="solve()">🚀 Solve Problem</button>
 
@@ -254,10 +308,8 @@ marked.parse(data.solution);
 
 }
 catch(err){
-
 document.getElementById("output").innerHTML =
 "❌ Server Error / API Not Responding";
-
 }
 finally{
 document.getElementById("loader").style.display = "none";
