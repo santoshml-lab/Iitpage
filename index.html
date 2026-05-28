@@ -1,280 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>IIT AI Coach V6 🚀</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>IIT AI Coach SaaS 🚀</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
 body{
-min-height:100vh;
-color:white;
-background:
-radial-gradient(circle at top left,#38bdf840,transparent 30%),
-radial-gradient(circle at top right,#8b5cf640,transparent 30%),
-radial-gradient(circle at bottom left,#22c55e30,transparent 35%),
-radial-gradient(circle at bottom right,#f9731630,transparent 35%),
-#020617;
-overflow-x:hidden;
-}
-
-/* Glow */
-body::before,
-body::after{
-content:"";
-position:fixed;
-filter:blur(140px);
-opacity:0.18;
-z-index:-1;
-}
-
-body::before{
-width:420px;height:420px;
-background:#38bdf8;
-top:-120px;left:-120px;
-}
-
-body::after{
-width:380px;height:380px;
-background:#8b5cf6;
-bottom:-120px;right:-120px;
-}
-
-/* Header */
-header{
-padding:20px 8%;
+margin:0;
+font-family:Poppins;
 display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(25px);
-}
-
-.logo{
-font-size:30px;
-font-weight:800;
-background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.tag{
-padding:10px 16px;
-background:rgba(17,24,39,0.8);
-border-radius:999px;
-font-size:13px;
-}
-
-/* Layout */
-.main{
-width:90%;
-max-width:1250px;
-margin:auto;
-display:grid;
-grid-template-columns:360px 1fr;
-gap:22px;
-padding-bottom:30px;
-}
-
-.card{
-background:rgba(255,255,255,0.06);
-padding:24px;
-border-radius:26px;
-border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(25px);
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-}
-
-/* Inputs */
-select,textarea{
-width:100%;
-padding:14px;
-margin-top:12px;
-border-radius:16px;
-border:none;
-outline:none;
-background:#111827;
+height:100vh;
+background:#0b1020;
 color:white;
-border:1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar{
+width:220px;
+background:#111827;
+padding:20px;
+}
+
+.sidebar h2{
+color:#38bdf8;
+}
+
+.btn{
+display:block;
+margin-top:10px;
+padding:10px;
+background:#1f2937;
+border:none;
+color:white;
+width:100%;
+border-radius:10px;
+cursor:pointer;
+}
+
+.main{
+flex:1;
+padding:20px;
 }
 
 textarea{
-resize:none;
-}
-
-#question{height:160px;}
-#answer{height:110px;}
-
-#output{
 width:100%;
-height:560px;
-margin-top:12px;
-padding:20px;
-
-border-radius:20px;
-background:#0f172a;
-border:1px solid rgba(255,255,255,0.08);
-
-/* FIX 👇 */
-font-size:18px;
-line-height:2;
-font-family: 'Poppins', sans-serif;
-
-white-space:pre-wrap;
-user-select:text;
--webkit-user-select:text;
-
-overflow:auto;
-color:#ffffff;
+height:120px;
+margin-top:10px;
+background:#111827;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
 }
 
-/* Buttons */
-.buttons{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:14px;
+.output{
+margin-top:20px;
+background:#0f172a;
+padding:15px;
+border-radius:10px;
+min-height:300px;
+white-space:pre-wrap;
 }
 
 button{
-padding:14px;
-border:none;
-border-radius:16px;
-background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
-color:white;
-font-weight:800;
-cursor:pointer;
-transition:0.2s;
-}
-
-button:hover{
-transform:scale(1.03);
-}
-
-.loader{
-display:none;
 margin-top:10px;
-color:#38bdf8;
-font-weight:700;
+padding:12px;
+background:#38bdf8;
+border:none;
+color:black;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
 }
-
-@media(max-width:900px){
-.main{grid-template-columns:1fr;}
-.buttons{grid-template-columns:1fr;}
-}
-
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="logo">🧠 IIT AI Coach V6</div>
-<div class="tag">⚡ Solve • Hint • Practice • Evaluate • Summary</div>
-</header>
+<div class="sidebar">
+<h2>⚡ IIT AI</h2>
+
+<button class="btn">Solve</button>
+<button class="btn">Hint</button>
+<button class="btn">Practice</button>
+<button class="btn">Evaluate</button>
+
+</div>
 
 <div class="main">
 
-<div class="card">
+<h3>Ask Your Problem</h3>
 
-<h3>⚡ Input Panel</h3>
-
-<select id="subject">
-<option value="physics">Physics</option>
-<option value="math">Math</option>
-<option value="chemistry">Chemistry</option>
-</select>
-
-<textarea id="question" placeholder="Enter problem..."></textarea>
-<textarea id="answer" placeholder="Write answer..."></textarea>
-
-<div class="buttons">
+<textarea id="q"></textarea>
 
 <button onclick="solve()">🚀 Solve</button>
-<button onclick="hint()">💡 Hint</button>
-<button onclick="practice()">🔥 Practice</button>
-<button onclick="evaluate()">🧠 Evaluate</button>
-<button onclick="summary()">📌 Summary</button>
 
-</div>
-
-<div class="loader" id="loader">AI thinking...</div>
-
-</div>
-
-<div class="card">
-
-<h3>📘 Output</h3>
-
-<textarea id="output" readonly></textarea>
-
-</div>
+<div class="output" id="out">Result...</div>
 
 </div>
 
 <script>
 
-const API = {
-solve:"https://iitpreparation.onrender.com/solve",
-practice:"https://iitpreparation.onrender.com/practice",
-evaluate:"https://iitpreparation.onrender.com/evaluate",
-hint:"https://iitpreparation.onrender.com/hint",
-summary:"https://iitpreparation.onrender.com/summary"
-};
+async function solve(){
 
-function show(){document.getElementById("loader").style.display="block";}
-function hide(){document.getElementById("loader").style.display="none";}
+let q=document.getElementById("q").value;
 
-async function call(url,body){
-show();
-let res = await fetch(url,{
+let res=await fetch("https://iitpreparation.onrender.com/solve",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify(body)
+body:JSON.stringify({
+subject:"physics",
+question:q
+})
 });
-let data = await res.json();
-hide();
-return data;
-}
 
-async function solve(){
-let s=subject.value,q=question.value;
-output.value=(await call(API.solve,{subject:s,question:q})).solution||"error";
-}
+let data=await res.json();
 
-async function hint(){
-let s=subject.value,q=question.value;
-output.value=(await call(API.hint,{subject:s,question:q})).result||"error";
-}
+document.getElementById("out").innerText=data.result;
 
-async function practice(){
-let s=subject.value,q=question.value;
-output.value=(await call(API.practice,{subject:s,question:q})).result||"error";
-}
-
-async function evaluate(){
-let s=subject.value,q=question.value,a=answer.value;
-output.value=(await call(API.evaluate,{subject:s,question:q,student_answer:a})).result||"error";
-}
-
-async function summary(){
-let s=subject.value,q=question.value,a=answer.value;
-output.value=(await call(API.summary,{subject:s,question:q,student_answer:a})).result||"error";
 }
 
 </script>
