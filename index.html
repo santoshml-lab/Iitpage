@@ -30,30 +30,29 @@ radial-gradient(circle at bottom right,#f9731630,transparent 35%),
 overflow-x:hidden;
 }
 
-body::before{
+body::before,
+body::after{
 content:"";
 position:fixed;
-width:400px;
-height:400px;
-background:#38bdf8;
 filter:blur(140px);
-top:-120px;
-left:-120px;
 opacity:0.18;
 z-index:-1;
 }
 
+body::before{
+width:400px;
+height:400px;
+background:#38bdf8;
+top:-120px;
+left:-120px;
+}
+
 body::after{
-content:"";
-position:fixed;
 width:350px;
 height:350px;
 background:#8b5cf6;
-filter:blur(140px);
 bottom:-120px;
 right:-120px;
-opacity:0.18;
-z-index:-1;
 }
 
 header{
@@ -195,10 +194,8 @@ font-size:32px;
 <body>
 
 <header>
-
 <div class="logo">🧠 IIT AI Coach V4</div>
-<div class="tag">⚡ Solve + Practice + Evaluation</div>
-
+<div class="tag">⚡ Solve + Practice + Evaluate</div>
 </header>
 
 <div class="hero">
@@ -207,6 +204,7 @@ font-size:32px;
 
 <div class="main">
 
+<!-- INPUT -->
 <div class="card">
 
 <h3>⚡ Input Panel</h3>
@@ -219,27 +217,22 @@ font-size:32px;
 
 <textarea id="question" placeholder="Enter IIT problem..."></textarea>
 
-<textarea id="answer" placeholder="Write your answer for AI evaluation..."></textarea>
+<textarea id="answer" placeholder="Write your answer for evaluation..."></textarea>
 
 <button onclick="solveProblem()">🚀 Solve</button>
-
 <button onclick="practiceProblem()">🔥 Solve + Next Practice</button>
-
 <button onclick="evaluateAnswer()">🧠 Evaluate My Answer</button>
 
-<div class="loader" id="loader">
-🧠 AI is thinking...
-</div>
+<div class="loader" id="loader">🧠 AI is thinking...</div>
 
 </div>
 
+<!-- OUTPUT -->
 <div class="card">
 
 <h3>📘 AI Output</h3>
 
-<div class="output" id="output">
-Result will appear here...
-</div>
+<div class="output" id="output">Result will appear here...</div>
 
 </div>
 
@@ -250,6 +243,15 @@ Result will appear here...
 const SOLVE_API = "https://iitpreparation.onrender.com/solve";
 const PRACTICE_API = "https://iitpreparation.onrender.com/practice";
 const EVALUATE_API = "https://iitpreparation.onrender.com/evaluate";
+
+function showLoader(){
+document.getElementById("loader").style.display = "block";
+document.getElementById("output").innerText = "Thinking...";
+}
+
+function hideLoader(){
+document.getElementById("loader").style.display = "none";
+}
 
 async function solveProblem(){
 
@@ -264,7 +266,6 @@ return;
 showLoader();
 
 try{
-
 let res = await fetch(SOLVE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -273,19 +274,13 @@ body:JSON.stringify({subject,question})
 
 let data = await res.json();
 
-document.getElementById("output").innerHTML =
-marked.parse(data.solution);
+document.getElementById("output").innerText = data.solution;
 
-}
-catch(err){
-
-document.getElementById("output").innerHTML =
-"❌ Solve API Error";
-
+}catch(err){
+document.getElementById("output").innerText = "❌ Solve API Error";
 }
 
 hideLoader();
-
 }
 
 async function practiceProblem(){
@@ -301,31 +296,21 @@ return;
 showLoader();
 
 try{
-
 let res = await fetch(PRACTICE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-subject,
-question
-})
+body:JSON.stringify({subject,question})
 });
 
 let data = await res.json();
 
-document.getElementById("output").innerHTML =
-marked.parse(data.result);
+document.getElementById("output").innerText = data.result;
 
-}
-catch(err){
-
-document.getElementById("output").innerHTML =
-"❌ Practice API Error";
-
+}catch(err){
+document.getElementById("output").innerText = "❌ Practice API Error";
 }
 
 hideLoader();
-
 }
 
 async function evaluateAnswer(){
@@ -335,14 +320,13 @@ let question = document.getElementById("question").value;
 let answer = document.getElementById("answer").value;
 
 if(!question || !answer){
-alert("Enter both question and answer");
+alert("Enter question + answer");
 return;
 }
 
 showLoader();
 
 try{
-
 let res = await fetch(EVALUATE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -355,28 +339,13 @@ student_answer:answer
 
 let data = await res.json();
 
-document.getElementById("output").innerHTML =
-marked.parse(data.result);
+document.getElementById("output").innerText = data.result;
 
-}
-catch(err){
-
-document.getElementById("output").innerHTML =
-"❌ Evaluation API Error";
-
+}catch(err){
+document.getElementById("output").innerText = "❌ Evaluation API Error";
 }
 
 hideLoader();
-
-}
-
-function showLoader(){
-document.getElementById("loader").style.display = "block";
-document.getElementById("output").innerHTML = "Thinking...";
-}
-
-function hideLoader(){
-document.getElementById("loader").style.display = "none";
 }
 
 </script>
