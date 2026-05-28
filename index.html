@@ -7,7 +7,6 @@
 <title>IIT AI Coach V4 🚀</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
 
@@ -30,6 +29,7 @@ radial-gradient(circle at bottom right,#f9731630,transparent 35%),
 overflow-x:hidden;
 }
 
+/* glow */
 body::before,
 body::after{
 content:"";
@@ -40,21 +40,18 @@ z-index:-1;
 }
 
 body::before{
-width:400px;
-height:400px;
+width:400px;height:400px;
 background:#38bdf8;
-top:-120px;
-left:-120px;
+top:-120px;left:-120px;
 }
 
 body::after{
-width:350px;
-height:350px;
+width:350px;height:350px;
 background:#8b5cf6;
-bottom:-120px;
-right:-120px;
+bottom:-120px;right:-120px;
 }
 
+/* header */
 header{
 padding:18px 8%;
 display:flex;
@@ -62,7 +59,6 @@ justify-content:space-between;
 align-items:center;
 background:rgba(255,255,255,0.06);
 backdrop-filter:blur(25px);
-border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
@@ -78,23 +74,9 @@ padding:8px 14px;
 background:rgba(17,24,39,0.8);
 border-radius:999px;
 font-size:13px;
-border:1px solid rgba(255,255,255,0.08);
 }
 
-.hero{
-text-align:center;
-padding:35px 8%;
-}
-
-.hero h1{
-font-size:44px;
-font-weight:800;
-}
-
-.hero span{
-color:#38bdf8;
-}
-
+/* layout */
 .main{
 width:90%;
 max-width:1200px;
@@ -102,6 +84,7 @@ margin:auto;
 display:grid;
 grid-template-columns:350px 1fr;
 gap:22px;
+padding-top:20px;
 }
 
 .card{
@@ -110,14 +93,14 @@ padding:22px;
 border-radius:24px;
 border:1px solid rgba(255,255,255,0.1);
 backdrop-filter:blur(25px);
-transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-6px);
-box-shadow:0 0 50px rgba(56,189,248,0.2);
+transform:translateY(-5px);
+transition:0.3s;
 }
 
+/* input */
 select, textarea{
 width:100%;
 padding:14px;
@@ -127,7 +110,6 @@ border:none;
 outline:none;
 background:#111827;
 color:white;
-border:1px solid rgba(255,255,255,0.08);
 }
 
 textarea{
@@ -135,60 +117,48 @@ height:180px;
 resize:none;
 }
 
+/* buttons */
 button{
 width:100%;
 padding:14px;
-margin-top:14px;
+margin-top:12px;
 border:none;
 border-radius:14px;
 background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
 color:white;
 font-weight:800;
 cursor:pointer;
-transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.03);
-}
-
+/* OUTPUT (IMPORTANT FIX) */
 .output{
 background:#0f172a;
-padding:20px;
+padding:18px;
 border-radius:18px;
 min-height:520px;
 white-space:pre-wrap;
-line-height:1.8;
-margin-top:12px;
-border:1px solid rgba(255,255,255,0.06);
+
+/* 🔥 COPY FIX */
+user-select:text;
+-webkit-user-select:text;
 overflow:auto;
 }
 
+/* loader */
 .loader{
 display:none;
 margin-top:10px;
 color:#38bdf8;
 font-weight:700;
-animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:0.4;}
-50%{opacity:1;}
-100%{opacity:0.4;}
 }
 
 @media(max-width:900px){
 .main{
 grid-template-columns:1fr;
 }
-.hero h1{
-font-size:32px;
-}
 }
 
 </style>
-
 </head>
 
 <body>
@@ -198,16 +168,12 @@ font-size:32px;
 <div class="tag">⚡ Solve + Practice + Evaluate</div>
 </header>
 
-<div class="hero">
-<h1>Solve <span>IIT Problems + Practice Mode</span> 🚀</h1>
-</div>
-
 <div class="main">
 
 <!-- INPUT -->
 <div class="card">
 
-<h3>⚡ Input Panel</h3>
+<h3>⚡ Input</h3>
 
 <select id="subject">
 <option value="physics">Physics</option>
@@ -215,22 +181,23 @@ font-size:32px;
 <option value="chemistry">Chemistry</option>
 </select>
 
-<textarea id="question" placeholder="Enter IIT problem..."></textarea>
+<textarea id="question" placeholder="Enter question..."></textarea>
 
-<textarea id="answer" placeholder="Write your answer for evaluation..."></textarea>
+<textarea id="answer" placeholder="Write answer for evaluation..."></textarea>
 
 <button onclick="solveProblem()">🚀 Solve</button>
-<button onclick="practiceProblem()">🔥 Solve + Next Practice</button>
-<button onclick="evaluateAnswer()">🧠 Evaluate My Answer</button>
+<button onclick="practiceProblem()">🔥 Practice</button>
+<button onclick="evaluateAnswer()">🧠 Evaluate</button>
+<button onclick="copyOutput()">📋 Copy Answer</button>
 
-<div class="loader" id="loader">🧠 AI is thinking...</div>
+<div class="loader" id="loader">🧠 AI thinking...</div>
 
 </div>
 
 <!-- OUTPUT -->
 <div class="card">
 
-<h3>📘 AI Output</h3>
+<h3>📘 Output</h3>
 
 <div class="output" id="output">Result will appear here...</div>
 
@@ -245,18 +212,26 @@ const PRACTICE_API = "https://iitpreparation.onrender.com/practice";
 const EVALUATE_API = "https://iitpreparation.onrender.com/evaluate";
 
 function showLoader(){
-document.getElementById("loader").style.display = "block";
-document.getElementById("output").innerText = "Thinking...";
+document.getElementById("loader").style.display="block";
 }
 
 function hideLoader(){
-document.getElementById("loader").style.display = "none";
+document.getElementById("loader").style.display="none";
 }
 
+/* ================= COPY FIX ================= */
+function copyOutput(){
+const text = document.getElementById("output").innerText;
+navigator.clipboard.writeText(text)
+.then(()=>alert("Copied 🚀"))
+.catch(()=>alert("Copy failed"));
+}
+
+/* ================= SOLVE ================= */
 async function solveProblem(){
 
-let subject = document.getElementById("subject").value;
-let question = document.getElementById("question").value;
+let subject=document.getElementById("subject").value;
+let question=document.getElementById("question").value;
 
 if(!question){
 alert("Enter question");
@@ -265,28 +240,24 @@ return;
 
 showLoader();
 
-try{
-let res = await fetch(SOLVE_API,{
+let res=await fetch(SOLVE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({subject,question})
 });
 
-let data = await res.json();
+let data=await res.json();
 
-document.getElementById("output").innerText = data.solution;
-
-}catch(err){
-document.getElementById("output").innerText = "❌ Solve API Error";
-}
+document.getElementById("output").innerText=data.solution;
 
 hideLoader();
 }
 
+/* ================= PRACTICE ================= */
 async function practiceProblem(){
 
-let subject = document.getElementById("subject").value;
-let question = document.getElementById("question").value;
+let subject=document.getElementById("subject").value;
+let question=document.getElementById("question").value;
 
 if(!question){
 alert("Enter question");
@@ -295,29 +266,25 @@ return;
 
 showLoader();
 
-try{
-let res = await fetch(PRACTICE_API,{
+let res=await fetch(PRACTICE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({subject,question})
 });
 
-let data = await res.json();
+let data=await res.json();
 
-document.getElementById("output").innerText = data.result;
-
-}catch(err){
-document.getElementById("output").innerText = "❌ Practice API Error";
-}
+document.getElementById("output").innerText=data.result;
 
 hideLoader();
 }
 
+/* ================= EVALUATE ================= */
 async function evaluateAnswer(){
 
-let subject = document.getElementById("subject").value;
-let question = document.getElementById("question").value;
-let answer = document.getElementById("answer").value;
+let subject=document.getElementById("subject").value;
+let question=document.getElementById("question").value;
+let answer=document.getElementById("answer").value;
 
 if(!question || !answer){
 alert("Enter question + answer");
@@ -326,8 +293,7 @@ return;
 
 showLoader();
 
-try{
-let res = await fetch(EVALUATE_API,{
+let res=await fetch(EVALUATE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
@@ -337,13 +303,9 @@ student_answer:answer
 })
 });
 
-let data = await res.json();
+let data=await res.json();
 
-document.getElementById("output").innerText = data.result;
-
-}catch(err){
-document.getElementById("output").innerText = "❌ Evaluation API Error";
-}
+document.getElementById("output").innerText=data.result;
 
 hideLoader();
 }
