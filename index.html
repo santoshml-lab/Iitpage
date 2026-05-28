@@ -1,120 +1,197 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IIT AI Coach SaaS 🚀</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Poppins;
-display:flex;
-height:100vh;
+font-family:Poppins,sans-serif;
 background:#0b1020;
 color:white;
+display:flex;
+height:100vh;
 }
 
+/* SIDEBAR */
 .sidebar{
-width:220px;
+width:240px;
 background:#111827;
 padding:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
 .sidebar h2{
 color:#38bdf8;
 }
 
-.btn{
-display:block;
-margin-top:10px;
+.sidebar button{
 padding:10px;
-background:#1f2937;
 border:none;
-color:white;
-width:100%;
 border-radius:10px;
+background:#1f2937;
+color:white;
 cursor:pointer;
 }
 
+/* MAIN */
 .main{
 flex:1;
 padding:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+textarea,select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#111827;
+color:white;
+resize:none;
+outline:none;
 }
 
 textarea{
-width:100%;
-height:120px;
-margin-top:10px;
-background:#111827;
-color:white;
-border:none;
-padding:10px;
-border-radius:10px;
+height:140px;
 }
 
+/* OUTPUT */
 .output{
-margin-top:20px;
+flex:1;
 background:#0f172a;
 padding:15px;
-border-radius:10px;
-min-height:300px;
+border-radius:12px;
+overflow:auto;
 white-space:pre-wrap;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+/* BUTTON ROW */
+.btns{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
 }
 
 button{
-margin-top:10px;
 padding:12px;
-background:#38bdf8;
 border:none;
-color:black;
-font-weight:bold;
 border-radius:10px;
+background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
+color:white;
+font-weight:bold;
 cursor:pointer;
 }
+
+button:hover{
+transform:scale(1.03);
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="sidebar">
-<h2>⚡ IIT AI</h2>
+<h2>🧠 IIT AI</h2>
 
-<button class="btn">Solve</button>
-<button class="btn">Hint</button>
-<button class="btn">Practice</button>
-<button class="btn">Evaluate</button>
+<button onclick="setMode('solve')">🚀 Solve</button>
+<button onclick="setMode('hint')">💡 Hint</button>
+<button onclick="setMode('practice')">🔥 Practice</button>
+<button onclick="setMode('evaluate')">🧠 Evaluate</button>
+<button onclick="setMode('summary')">📌 Summary</button>
 
 </div>
 
 <div class="main">
 
-<h3>Ask Your Problem</h3>
+<select id="subject">
+<option>Physics</option>
+<option>Math</option>
+<option>Chemistry</option>
+</select>
 
-<textarea id="q"></textarea>
+<div class="grid">
 
-<button onclick="solve()">🚀 Solve</button>
+<textarea id="question" placeholder="Enter question..."></textarea>
+<textarea id="answer" placeholder="Enter answer (for evaluation)..."></textarea>
 
-<div class="output" id="out">Result...</div>
+</div>
+
+<div class="btns">
+
+<button onclick="run()">⚡ Run</button>
+
+</div>
+
+<div class="output" id="output">
+Output will appear here...
+</div>
 
 </div>
 
 <script>
 
-async function solve(){
+let mode="solve";
 
-let q=document.getElementById("q").value;
+function setMode(m){
+mode=m;
+document.getElementById("output").innerText="Mode set to: "+m;
+}
 
-let res=await fetch("https://iitpreparation.onrender.com/solve",{
+/* API */
+const API={
+solve:"https://iitpreparation.onrender.com/solve",
+hint:"https://iitpreparation.onrender.com/hint",
+practice:"https://iitpreparation.onrender.com/practice",
+evaluate:"https://iitpreparation.onrender.com/evaluate",
+summary:"https://iitpreparation.onrender.com/summary"
+};
+
+async function run(){
+
+let subject=document.getElementById("subject").value;
+let question=document.getElementById("question").value;
+let answer=document.getElementById("answer").value;
+
+if(!question){
+alert("Enter question");
+return;
+}
+
+let body={subject,question,student_answer:answer};
+
+let url=API[mode];
+
+document.getElementById("output").innerText="Thinking...";
+
+let res=await fetch(url,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-subject:"physics",
-question:q
-})
+body:JSON.stringify(body)
 });
 
 let data=await res.json();
 
-document.getElementById("out").innerText=data.result;
+/* safe output mapping */
+document.getElementById("output").innerText =
+data.solution || data.result || "No response";
 
 }
 
