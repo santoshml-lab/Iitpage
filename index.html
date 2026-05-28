@@ -11,7 +11,6 @@
 
 <style>
 
-/* BASE */
 *{
 margin:0;
 padding:0;
@@ -31,7 +30,6 @@ radial-gradient(circle at bottom right,#f9731630,transparent 35%),
 overflow-x:hidden;
 }
 
-/* FLOATING GLOW */
 body::before{
 content:"";
 position:fixed;
@@ -58,7 +56,6 @@ opacity:0.18;
 z-index:-1;
 }
 
-/* HEADER */
 header{
 padding:18px 8%;
 display:flex;
@@ -85,7 +82,6 @@ font-size:13px;
 border:1px solid rgba(255,255,255,0.08);
 }
 
-/* HERO */
 .hero{
 text-align:center;
 padding:35px 8%;
@@ -100,7 +96,6 @@ font-weight:800;
 color:#38bdf8;
 }
 
-/* MAIN */
 .main{
 width:90%;
 max-width:1200px;
@@ -110,7 +105,6 @@ grid-template-columns:350px 1fr;
 gap:22px;
 }
 
-/* CARD */
 .card{
 background:rgba(255,255,255,0.06);
 padding:22px;
@@ -125,7 +119,6 @@ transform:translateY(-6px);
 box-shadow:0 0 50px rgba(56,189,248,0.2);
 }
 
-/* INPUT */
 select, textarea{
 width:100%;
 padding:14px;
@@ -139,11 +132,10 @@ border:1px solid rgba(255,255,255,0.08);
 }
 
 textarea{
-height:200px;
+height:180px;
 resize:none;
 }
 
-/* BUTTONS */
 button{
 width:100%;
 padding:14px;
@@ -161,7 +153,6 @@ button:hover{
 transform:scale(1.03);
 }
 
-/* OUTPUT */
 .output{
 background:#0f172a;
 padding:20px;
@@ -174,7 +165,6 @@ border:1px solid rgba(255,255,255,0.06);
 overflow:auto;
 }
 
-/* LOADER */
 .loader{
 display:none;
 margin-top:10px;
@@ -189,7 +179,6 @@ animation:pulse 1s infinite;
 100%{opacity:0.4;}
 }
 
-/* MOBILE */
 @media(max-width:900px){
 .main{
 grid-template-columns:1fr;
@@ -208,7 +197,7 @@ font-size:32px;
 <header>
 
 <div class="logo">🧠 IIT AI Coach V4</div>
-<div class="tag">⚡ Solve + Practice Engine</div>
+<div class="tag">⚡ Solve + Practice + Evaluation</div>
 
 </header>
 
@@ -218,7 +207,6 @@ font-size:32px;
 
 <div class="main">
 
-<!-- INPUT -->
 <div class="card">
 
 <h3>⚡ Input Panel</h3>
@@ -231,11 +219,13 @@ font-size:32px;
 
 <textarea id="question" placeholder="Enter IIT problem..."></textarea>
 
-<textarea id="answer" placeholder="(Optional) Write your answer for evaluation..."></textarea>
+<textarea id="answer" placeholder="Write your answer for AI evaluation..."></textarea>
 
 <button onclick="solveProblem()">🚀 Solve</button>
 
 <button onclick="practiceProblem()">🔥 Solve + Next Practice</button>
+
+<button onclick="evaluateAnswer()">🧠 Evaluate My Answer</button>
 
 <div class="loader" id="loader">
 🧠 AI is thinking...
@@ -243,7 +233,6 @@ font-size:32px;
 
 </div>
 
-<!-- OUTPUT -->
 <div class="card">
 
 <h3>📘 AI Output</h3>
@@ -260,6 +249,7 @@ Result will appear here...
 
 const SOLVE_API = "https://iitpreparation.onrender.com/solve";
 const PRACTICE_API = "https://iitpreparation.onrender.com/practice";
+const EVALUATE_API = "https://iitpreparation.onrender.com/evaluate";
 
 async function solveProblem(){
 
@@ -273,6 +263,8 @@ return;
 
 showLoader();
 
+try{
+
 let res = await fetch(SOLVE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -284,14 +276,22 @@ let data = await res.json();
 document.getElementById("output").innerHTML =
 marked.parse(data.solution);
 
+}
+catch(err){
+
+document.getElementById("output").innerHTML =
+"❌ Solve API Error";
+
+}
+
 hideLoader();
+
 }
 
 async function practiceProblem(){
 
 let subject = document.getElementById("subject").value;
 let question = document.getElementById("question").value;
-let answer = document.getElementById("answer").value;
 
 if(!question){
 alert("Enter question");
@@ -300,13 +300,14 @@ return;
 
 showLoader();
 
+try{
+
 let res = await fetch(PRACTICE_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 subject,
-question,
-student_response: answer
+question
 })
 });
 
@@ -315,7 +316,58 @@ let data = await res.json();
 document.getElementById("output").innerHTML =
 marked.parse(data.result);
 
+}
+catch(err){
+
+document.getElementById("output").innerHTML =
+"❌ Practice API Error";
+
+}
+
 hideLoader();
+
+}
+
+async function evaluateAnswer(){
+
+let subject = document.getElementById("subject").value;
+let question = document.getElementById("question").value;
+let answer = document.getElementById("answer").value;
+
+if(!question || !answer){
+alert("Enter both question and answer");
+return;
+}
+
+showLoader();
+
+try{
+
+let res = await fetch(EVALUATE_API,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+subject,
+question,
+student_answer:answer
+})
+});
+
+let data = await res.json();
+
+document.getElementById("output").innerHTML =
+marked.parse(data.result);
+
+}
+catch(err){
+
+document.getElementById("output").innerHTML =
+"❌ Evaluation API Error";
+
+}
+
+hideLoader();
+
 }
 
 function showLoader(){
