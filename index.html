@@ -2,146 +2,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IIT AI Coach SaaS 🚀</title>
+
+<title>IIT AI Coach V7 Ultra 🚀</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
 
-body{
+*{
 margin:0;
-font-family:Poppins,sans-serif;
-background:#0b1020;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:
+radial-gradient(circle at top left,#38bdf830,transparent 25%),
+radial-gradient(circle at bottom right,#8b5cf630,transparent 25%),
+#020617;
+
 color:white;
-display:flex;
 height:100vh;
+overflow:hidden;
+display:flex;
+
 }
 
 /* SIDEBAR */
+
 .sidebar{
-width:240px;
-background:#111827;
-padding:20px;
+
+width:260px;
+background:rgba(255,255,255,0.04);
+
+backdrop-filter:blur(20px);
+
+border-right:1px solid rgba(255,255,255,0.08);
+
+padding:24px;
+
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:14px;
+
 }
 
-.sidebar h2{
-color:#38bdf8;
+.logo{
+
+font-size:30px;
+font-weight:800;
+
+background:linear-gradient(
+45deg,
+#38bdf8,
+#8b5cf6,
+#22c55e
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+margin-bottom:20px;
+
 }
 
 .sidebar button{
-padding:10px;
+
+padding:14px;
+
 border:none;
-border-radius:10px;
-background:#1f2937;
+
+border-radius:16px;
+
+background:#111827;
+
 color:white;
+
 cursor:pointer;
+
+font-size:15px;
+
+font-weight:600;
+
+transition:0.25s;
+
+border:1px solid rgba(255,255,255,0.06);
+
+}
+
+.sidebar button:hover{
+
+transform:translateX(5px);
+
+background:linear-gradient(
+45deg,
+#38bdf8,
+#8b5cf6
+);
+
 }
 
 /* MAIN */
+
 .main{
+
 flex:1;
-padding:20px;
+
+padding:24px;
+
 display:flex;
 flex-direction:column;
-gap:12px;
+
+gap:16px;
+
+overflow:hidden;
+
 }
 
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
+/* TOP BAR */
+
+.top{
+
+display:flex;
+gap:14px;
+
 }
 
-textarea,select{
-width:100%;
-padding:12px;
-border-radius:10px;
+select{
+
+padding:14px;
+
 border:none;
+
+border-radius:16px;
+
 background:#111827;
+
 color:white;
-resize:none;
+
+font-size:15px;
+
 outline:none;
+
+min-width:200px;
+
 }
+
+/* INPUT GRID */
+
+.grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:16px;
+
+}
+
+/* INPUTS */
 
 textarea{
-height:140px;
+
+width:100%;
+
+height:180px;
+
+padding:18px;
+
+border:none;
+
+outline:none;
+
+resize:none;
+
+border-radius:22px;
+
+background:rgba(255,255,255,0.05);
+
+backdrop-filter:blur(20px);
+
+color:white;
+
+font-size:15px;
+
+line-height:1.7;
+
+border:1px solid rgba(255,255,255,0.08);
+
+transition:0.3s;
+
+}
+
+textarea:focus{
+
+border:1px solid #38bdf8;
+
+box-shadow:
+0 0 25px rgba(56,189,248,0.2);
+
+}
+
+/* RUN BUTTON */
+
+.run-wrap{
+
+display:flex;
+justify-content:flex-end;
+
+}
+
+.run-btn{
+
+padding:14px 28px;
+
+border:none;
+
+border-radius:18px;
+
+font-size:16px;
+font-weight:700;
+
+cursor:pointer;
+
+background:linear-gradient(
+45deg,
+#38bdf8,
+#8b5cf6,
+#22c55e
+);
+
+color:white;
+
+transition:0.3s;
+
+box-shadow:
+0 0 35px rgba(56,189,248,0.25);
+
+}
+
+.run-btn:hover{
+
+transform:scale(1.04);
+
+box-shadow:
+0 0 45px rgba(56,189,248,0.45);
+
 }
 
 /* OUTPUT */
+
 .output{
+
 flex:1;
-background:#0f172a;
-padding:15px;
-border-radius:12px;
+
 overflow:auto;
-white-space:pre-wrap;
-border:1px solid rgba(255,255,255,0.1);
+
+padding:28px;
+
+border-radius:28px;
+
+background:rgba(255,255,255,0.05);
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,0.08);
+
+font-size:18px;
+
+line-height:2;
+
+color:#f8fafc;
+
+box-shadow:
+0 0 35px rgba(0,0,0,0.2);
+
 }
 
-/* BUTTON ROW */
-.btns{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:10px;
+/* MARKDOWN STYLING */
+
+.output h1,
+.output h2,
+.output h3{
+
+margin-top:20px;
+margin-bottom:12px;
+
+color:#38bdf8;
+
 }
 
-button{
-padding:12px;
-border:none;
-border-radius:10px;
-background:linear-gradient(45deg,#38bdf8,#8b5cf6,#22c55e);
-color:white;
-font-weight:bold;
-cursor:pointer;
+.output p{
+
+margin-top:14px;
+
+padding:16px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,0.03);
+
+border-left:4px solid #38bdf8;
+
 }
 
-button:hover{
-transform:scale(1.03);
+.output li{
+
+margin-top:10px;
+
+}
+
+.output code{
+
+background:#111827;
+
+padding:4px 8px;
+
+border-radius:8px;
+
+color:#22c55e;
+
+}
+
+/* LOADER */
+
+.loader{
+
+display:none;
+
+font-weight:700;
+
+color:#38bdf8;
+
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+body{
+
+flex-direction:column;
+
+overflow:auto;
+
+}
+
+.sidebar{
+
+width:100%;
+flex-direction:row;
+overflow:auto;
+
+}
+
+.main{
+
+padding:16px;
+
+}
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="sidebar">
-<h2>🧠 IIT AI</h2>
+<!-- SIDEBAR -->
 
-<button onclick="setMode('solve')">🚀 Solve</button>
-<button onclick="setMode('hint')">💡 Hint</button>
-<button onclick="setMode('practice')">🔥 Practice</button>
-<button onclick="setMode('evaluate')">🧠 Evaluate</button>
-<button onclick="setMode('summary')">📌 Summary</button>
+<div class="sidebar">
+
+<div class="logo">
+🧠 IIT AI
+</div>
+
+<button onclick="setMode('solve')">
+🚀 Solve
+</button>
+
+<button onclick="setMode('hint')">
+💡 Hint
+</button>
+
+<button onclick="setMode('practice')">
+🔥 Practice
+</button>
+
+<button onclick="setMode('evaluate')">
+🧠 Evaluate
+</button>
+
+<button onclick="setMode('summary')">
+📌 Summary
+</button>
 
 </div>
+
+<!-- MAIN -->
 
 <div class="main">
 
+<div class="top">
+
 <select id="subject">
+
 <option>Physics</option>
 <option>Math</option>
 <option>Chemistry</option>
+
 </select>
+
+</div>
 
 <div class="grid">
 
-<textarea id="question" placeholder="Enter question..."></textarea>
-<textarea id="answer" placeholder="Enter answer (for evaluation)..."></textarea>
+<textarea
+id="question"
+placeholder="Enter IIT-level problem..."
+></textarea>
+
+<textarea
+id="answer"
+placeholder="Write student answer for evaluation..."
+></textarea>
 
 </div>
 
-<div class="btns">
+<div class="run-wrap">
 
-<button onclick="run()">⚡ Run</button>
+<button class="run-btn" onclick="run()">
+⚡ Run AI
+</button>
 
+</div>
+
+<div class="loader" id="loader">
+🧠 AI thinking like IIT mentor...
 </div>
 
 <div class="output" id="output">
-Output will appear here...
+
+✨ Welcome to IIT AI Coach Ultra Premium
+
+Select mode from sidebar and start solving.
+
 </div>
 
 </div>
@@ -151,47 +470,119 @@ Output will appear here...
 let mode="solve";
 
 function setMode(m){
+
 mode=m;
-document.getElementById("output").innerText="Mode set to: "+m;
+
+document.getElementById("output").innerHTML =
+`
+<h2>⚡ Mode Changed</h2>
+<p>Current mode: <b>${m}</b></p>
+`;
+
 }
 
-/* API */
+/* APIs */
+
 const API={
+
 solve:"https://iitpreparation.onrender.com/solve",
+
 hint:"https://iitpreparation.onrender.com/hint",
+
 practice:"https://iitpreparation.onrender.com/practice",
+
 evaluate:"https://iitpreparation.onrender.com/evaluate",
+
 summary:"https://iitpreparation.onrender.com/summary"
+
 };
+
+/* Loader */
+
+function showLoader(){
+
+document.getElementById("loader").style.display="block";
+
+}
+
+function hideLoader(){
+
+document.getElementById("loader").style.display="none";
+
+}
+
+/* RUN */
 
 async function run(){
 
-let subject=document.getElementById("subject").value;
-let question=document.getElementById("question").value;
-let answer=document.getElementById("answer").value;
+let subject =
+document.getElementById("subject").value;
+
+let question =
+document.getElementById("question").value;
+
+let answer =
+document.getElementById("answer").value;
 
 if(!question){
+
 alert("Enter question");
 return;
+
 }
 
-let body={subject,question,student_answer:answer};
+showLoader();
+
+let body={
+
+subject,
+question,
+student_answer:answer
+
+};
 
 let url=API[mode];
 
-document.getElementById("output").innerText="Thinking...";
+try{
 
 let res=await fetch(url,{
+
 method:"POST",
-headers:{"Content-Type":"application/json"},
+
+headers:{
+"Content-Type":"application/json"
+},
+
 body:JSON.stringify(body)
+
 });
 
 let data=await res.json();
 
-/* safe output mapping */
-document.getElementById("output").innerText =
-data.solution || data.result || "No response";
+document.getElementById("output").innerHTML =
+
+marked.parse(
+
+data.solution ||
+data.result ||
+"No response"
+
+);
+
+}
+
+catch(err){
+
+document.getElementById("output").innerHTML =
+
+`
+<h2>❌ API Error</h2>
+<p>Backend failed or endpoint missing.</p>
+`;
+
+}
+
+hideLoader();
 
 }
 
